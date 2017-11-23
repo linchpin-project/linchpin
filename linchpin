@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# --- To use reprozip, python is required. Install the python or uncomment the below lines ---
+# Install Python
+# apt-get install -y python python-dev python-pip gcc libsqlite3-dev libssl-dev libffi-dev
+# Install Reprozip
+# pip install -U reprozip
+
+# Get run arguments. For e.g., python demo.py
+run_args="$@"
+
+# change directory to current directory
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path"
+
+# Run your program with reprozip
+reprozip trace $run_args
+
+# Get the project folder from run arguments
+IFS='//' read -r -a array <<< "$run_args"
+project_dir=run/${array[1]}
+
+# Move reprozip output to project directory. For e.g., run/python-demo/config
+mv .reprozip-trace ${project_dir}/config
+
+# Invoke yml to JSON parser - It will generate config.json
+python parsers/yml_to_json.py ${project_dir}/config/config.yml
+
+# Invoke JSON to Dockerfile generator
+python parsers/json_to_docker.py ${project_dir}/config/config.json
+
+# Generate tar file containing Dockerfile and project files
+cd "$project_dir"
+cp config/Dockerfile .
+tar --exclude "config" -zcvf docker.tar *
+rm Dockerfile
