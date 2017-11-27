@@ -3,7 +3,7 @@
 ## Purpose
 Linchpin is a framework to reproduce large scale scientic experiments.
 
-Note: As of now, the framework only works for projects developed in Python.
+**Note:** As of now, the framework only works for projects developed in Python.
 
 ## Software Requirements
 
@@ -47,9 +47,13 @@ For example, in our case:
 	
 ### Step 2: Parsing Phase
 
-* Phase A: Linchpin will invoke a parser program to convert yml to JSON. This will remove unwanted entries created by Reprozip in the yml file. Also, it will format the configuration required further to generate the Docker configuration file (Dockerfile).
+* Phase A: Input to this phase is the "yml" file created by Reprozip. Linchpin will invoke a parser program to convert yml to JSON. This will remove unwanted entries created by Reprozip in the yml file. Also, it will format the configuration required further to generate the Docker configuration file (Dockerfile).
 
-* Phase B: After this, Linchpin will invoke another parser program to generate Dockerfile from JSON file generated in Phase A.
+* Phase B: Input to this phase is the "JSON" file created in Phase A. After this, Linchpin will invoke another parser program to generate Dockerfile from JSON file generated in Phase A.
+
+**Parameter Sweeping:** In Phase B, you can edit the dependencies/version in the JSON file.
+
+Note: Both the JSON and Dockerfile will be stored under the "config" directory.
 
 ### Step 3: Bundling Docker and Experiment files
 
@@ -61,7 +65,7 @@ In our case, we are uploading a tar file generated in Step 3 to git under "examp
 
 We are using "Chef" (https://www.chef.io/) for deployment. The Chef cookbook can be found in "chef/cookbooks/installation/" directory.
 
-Chef-client will download the "tar" file from git. (Note: Please edit the URLs of git project and tar file located by variable names "git_tar_dir", and "git_tar_file" in the Chef recipe ("chef/cookbooks/installation/recipes/default.rb").
+Chef-client will download the "tar" file from git. (**Note:** Please edit the URLs of git project and tar file located by variable names "git_tar_dir", and "git_tar_file" in the Chef recipe ("chef/cookbooks/installation/recipes/default.rb").
 Chef-client will create a "linchpin-run" directory in your home directory, and will download the "tar" file in that directory.
 After that, Chef-client will create a docker image and container from the "Dockerfile" bundled in the "tar" file. It will also copy the source code to the docker image.
 
