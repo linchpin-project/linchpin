@@ -38,12 +38,12 @@ In this example, you can use the following command:
 Internally, Linchpin will invoke "Reprozip" to capture experimental environment including system details, libraries used, packages used, etc.
 
 Reprozip stores all this information in a "yml" file.
-Linchpin will create a directory "config" under your experimental directory, and will store the yml file under this directory.
+Linchpin will create a directory "linchpin-config" under your experimental directory, and will store the yml file under this directory.
 
 For example, in our case:
 	
 	test@pc1:~/linchpin/run/python-test$ ls
-	config	demo.py
+	linchpin-config	demo.py
 	
 ### Step 2: Parsing Phase
 
@@ -53,7 +53,7 @@ For example, in our case:
 
 **Parameter Sweeping:** In Phase B, you can edit the dependencies/version in the JSON file.
 
-Note: Both the JSON and Dockerfile will be stored under the "config" directory.
+Note: Both the JSON and Dockerfile will be stored under the "linchpin-config" directory.
 
 ### Step 3: Bundling Docker and Experiment files
 

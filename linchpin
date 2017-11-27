@@ -22,16 +22,24 @@ project_name=${array[1]}
 project_dir=run/${project_name}
 
 # Move reprozip output to project directory. For e.g., run/python-demo/config
-mv .reprozip-trace ${project_dir}/config
+mv .reprozip-trace ${project_dir}/linchpin-config
 
 # Invoke yml to JSON parser - It will generate config.json
-python parsers/yml_to_json.py ${project_dir}/config/config.yml
+python parsers/yml_to_json.py ${project_dir}/linchpin-config/config.yml
 
 # Invoke JSON to Dockerfile generator
-python parsers/json_to_docker.py ${project_dir}/config/config.json
+python parsers/json_to_docker.py ${project_dir}/linchpin-config/config.json
 
 # Generate tar file containing Dockerfile and project files
 cd "$project_dir"
-cp config/Dockerfile .
-tar --exclude "config" -zcvf ${project_name}.tar *
-rm Dockerfile
+mkdir "linchpin-tar"
+cp linchpin-config/Dockerfile linchpin-tar/Dockerfile
+mkdir linchpin-tar/${project_name}
+rsync -a --exclude linchpin-config --exclude linchpin-tar * linchpin-tar/${project_name} 
+cd "linchpin-tar"
+tar -zcvf ${project_name}.tar *
+
+# Move tar file to linchpin-config
+mv ${project_name}.tar ../linchpin-config/
+cd ../
+rm -r linchpin-tar

@@ -1,6 +1,8 @@
 from __future__ import print_function
 import os,sys,json,pprint
 excludedLibrariesList = ["tzdata","libstdc++6"]
+dockerFileName = "Dockerfile"
+
 
 #Generate the list of all the python packages installed
 def generatePythonPackagelist():
@@ -49,9 +51,10 @@ def getPythonPackages(packageList):
 
 def genrateDockerFile():
     configJSON = json.load(open(sys.argv[1]))
+    linchpinConfigPath = "/".join(sys.argv[1].split("/")[:-1])
     #print((configJSON["packages"]))
     osNameAndVersion = ":".join(configJSON['runs'][0]['distribution'])
-    with open("DockerFile","w") as outfile:
+    with open(linchpinConfigPath + "/" + dockerFileName,"w") as outfile:
         outfile.write("FROM "+ osNameAndVersion + "\n\n")
         outfile.write("RUN apt-get update" + "\n")
         for package in configJSON["packages"]:
@@ -73,9 +76,6 @@ def genrateDockerFile():
         #print (folderName)
         outfile.write("COPY " + folderName + " /" + folderName + "\n\n")
         outfile.write("ENTRYPOINT " + argvFromJson[0] + " " + "/".join(splitfolderName[1:]))
-        outfile.close()
-
-
 
 
 if __name__ == "__main__":
