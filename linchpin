@@ -18,7 +18,8 @@ reprozip trace $run_args
 
 # Get the project folder from run arguments
 IFS='//' read -r -a array <<< "$run_args"
-project_dir=run/${array[1]}
+project_name=${array[1]}
+project_dir=run/${project_name}
 
 # Move reprozip output to project directory. For e.g., run/python-demo/config
 mv .reprozip-trace ${project_dir}/config
@@ -32,5 +33,5 @@ python parsers/json_to_docker.py ${project_dir}/config/config.json
 # Generate tar file containing Dockerfile and project files
 cd "$project_dir"
 cp config/Dockerfile .
-tar --exclude "config" -zcvf docker.tar *
+tar --exclude "config" -zcvf ${project_name}.tar *
 rm Dockerfile
