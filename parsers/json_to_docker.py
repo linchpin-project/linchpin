@@ -55,7 +55,7 @@ def genrateDockerFile():
     #print((configJSON["packages"]))
     osNameAndVersion = ":".join(configJSON['runs'][0]['distribution'])
     with open(linchpinConfigPath + "/" + dockerFileName,"w") as outfile:
-        outfile.write("FROM "+ osNameAndVersion + "\n\n")
+        outfile.write("FROM "+ osNameAndVersion.lower() + "\n\n")
         outfile.write("RUN apt-get update" + "\n")
         for package in configJSON["packages"]:
             name = package['name']
