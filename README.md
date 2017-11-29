@@ -96,3 +96,13 @@ For example, in our case, the command would be:
 [vo]: https://www.linkedin.com/in/vishal13may/
 [aj]: https://www.linkedin.com/in/akshay-joshi-8a961192/
 
+## Links and References
+
+* [Reprozip][rp]
+* [Docker][dc]
+* [Chef][cf]
+
+[rp]: https://www.reprozip.org/
+[dc]: https://www.docker.com/
+[cf]: https://www.chef.io/
+
