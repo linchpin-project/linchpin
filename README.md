@@ -86,3 +86,13 @@ For example, in our case, the command would be:
 	$ sudo docker run -it python-test
 	
 
+## Contributors
+
+* [Rafael Ferreira da Silva][rs]
+* [Vishal Oswal][vo]
+* [Akshay Joshi][aj]
+
+[rs]: http://rafaelsilva.com/
+[vo]: https://www.linkedin.com/in/vishal13may/
+[aj]: https://www.linkedin.com/in/akshay-joshi-8a961192/
+
